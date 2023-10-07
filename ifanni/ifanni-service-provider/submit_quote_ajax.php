@@ -1,0 +1,18 @@
+<?php
+session_start();
+include 'db_connection.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+$job_id = $_POST['job_id'];
+$details = $_POST['details'];
+$quote = $_POST['quote'];
+$service_provider_id = $_SESSION['service-provider_id']; // Assuming you've started a session
+
+$query = "INSERT INTO moderator_job_response_notification (job_id, service_provider_id, details, price_quote_by_service_provider) VALUES ('$job_id', '$service_provider_id', '$details', '$quote')";
+
+if ($conn->query($query)) {
+echo "Quote and details submitted successfully!";
+} else {
+echo "Error: " . $conn->error;
+}
+}

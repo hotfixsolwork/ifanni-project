@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Data Table with Download Button</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.dataTables.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Add a button to download the table data -->
+      <div class="mb-3">
+        <button id="downloadDataBtn" class="btn btn-primary">
+          Download Data
+        </button>
+      </div>
+
+      <!-- Table to display data -->
+      <table id="dataTable" class="display">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>City</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>John Doe</td>
+            <td>30</td>
+            <td>New York</td>
+          </tr>
+          <tr>
+            <td>Jane Smith</td>
+            <td>25</td>
+            <td>Los Angeles</td>
+          </tr>
+          <tr>
+            <td>Jane Smithh</td>
+            <td>25</td>
+            <td>Los Angeless</td>
+          </tr>
+          <tr>
+            <td>Jane Smitht</td>
+            <td>25</td>
+            <td>Los Angelesss</td>
+          </tr>
+          <!-- Add more rows as needed -->
+        </tbody>
+      </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.0.0/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+
+    <script>
+      $(document).ready(function () {
+        // Initialize the DataTable
+        var table = $("#dataTable").DataTable({
+          dom: "Bfrtip",
+          buttons: [
+            {
+              extend: "excelHtml5",
+              title: "Table Data",
+              exportOptions: {
+                columns: [0, 1, 2], // Specify which columns to export
+              },
+            },
+            {
+              extend: "pdfHtml5",
+              title: "Table Data",
+              exportOptions: {
+                columns: [0, 1, 2], // Specify which columns to export
+              },
+            },
+          ],
+        });
+
+        // Add a click event listener to the "Download Data" button
+        $("#downloadDataBtn").on("click", function () {
+          // Trigger the DataTables' export functionality to download the table data
+          table.buttons().trigger("click");
+        });
+      });
+    </script>
+  </body>
+</html>

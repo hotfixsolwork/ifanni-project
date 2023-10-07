@@ -1,0 +1,64 @@
+<?php
+include('db_connection.php');
+session_start();
+$id = $_POST['customAttribute1'];
+
+// echo 'umar ----  -- ';
+// echo $_POST['customAttribute1']." ---  third :";
+// echo $_POST['payment'];
+
+$selectQuery = "SELECT job_id, service_provider_id FROM moderator_job_response_notification WHERE id = $id";
+$result = $conn->query($selectQuery);
+if($conn->query($selectQuery))
+{
+   // echo " --select run query  -- ";
+}
+else{
+//echo " -- select error -- ";
+}
+
+$moderator_id = $_SESSION['moderator-id'];
+if ($row1 = $result->fetch_assoc())
+{
+    $jobId = $row1['job_id'];
+
+    $selectQueryNew = "SELECT client_id FROM client_job WHERE id = ".$jobId;
+    $resultNew = $conn->query($selectQueryNew);
+   
+    if (!$resultNew) {
+        die("Query execution failed: " . $conn->error);
+    }
+
+    if ($rowNew = $resultNew->fetch_assoc()) {
+        echo $clientId = $rowNew['client_id'];
+    }
+    $serviceProviderId = $row1['service_provider_id'];
+}
+
+// $status = $_POST['action'];
+// $message = $_POST['message'];
+
+
+$query = "UPDATE moderator_job_response_notification SET invoice_sent = '1' WHERE id = ".$id;
+// $conn->query($query);
+ if ($conn->query($query) === TRUE) {
+
+    
+ }
+ else{
+   
+    echo $conn->error;
+ }
+ $payment = $_POST['payment'];
+$due_date = $_POST['due_date'];
+
+$insertQuery = "INSERT INTO invoice (job_id,moderator_id,client_id,service_provider_id,payment,due_date,today_date) VALUES 
+('$jobId', '$moderator_id', '$clientId', '$serviceProviderId', '$payment', NOW(), NOW())";
+if($conn->query($insertQuery)){
+    echo " -- insert query run";
+}
+else{
+    echo $conn->error;
+ }
+
+echo "success";
